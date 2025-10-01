@@ -88,7 +88,6 @@
 - ✅ Frontend README with architecture details
 - ✅ TYPE_GENERATION.md explaining auto-type workflow
 - ✅ DEPLOYMENT.md with full deployment guide
-- ✅ PROJECT_PLAN.md with development roadmap
 - ✅ Inline code comments (especially in Russian for critical fixes)
 
 ## 📈 Overall Progress: 98%
@@ -242,7 +241,6 @@ ligiclike/
 ├── README.md                 # Main documentation
 ├── DEPLOYMENT.md             # Deployment guide
 ├── TYPE_GENERATION.md        # Type generation docs
-└── PROJECT_PLAN.md           # Development plan
 ```
 
 ## 🚀 Running the Project
@@ -328,32 +326,6 @@ cd frontend && npm run build
 - `409` - Already voted (DUPLICATE_VOTE)
 - `409` - Vote limit exceeded (VOTE_LIMIT_EXCEEDED)
 - `500` - Server error
-
-## 🎯 Next Steps (Optional Enhancements)
-
-### High Priority
-
-- [ ] Add toast notifications (react-hot-toast)
-- [ ] Add Sentry error tracking
-- [ ] Implement rate limiting middleware
-- [ ] Add health check endpoint
-- [ ] Set up CI/CD pipeline
-
-### Medium Priority
-
-- [ ] Add idea creation endpoint
-- [ ] Implement pagination for ideas list
-- [ ] Add sorting (by votes, date)
-- [ ] Add search/filter functionality
-- [ ] Admin panel for idea management
-
-### Low Priority
-
-- [ ] Dark mode toggle
-- [ ] Add animations (framer-motion)
-- [ ] PWA support with service worker
-- [ ] i18n (internationalization)
-- [ ] Analytics integration
 
 ## ✨ Highlights
 

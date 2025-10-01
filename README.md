@@ -1,248 +1,263 @@
 # 🗳️ Voting Platform (LogicLike)
 
-Современная платформа для голосования за идеи с защитой от накрутки голосов.
+Современная платформа для голосования за идеи с защитой от накрутки голосов и единым типобезопасным API.
 
-## ✨ Особенности
+> Productivity-first, type-safe, production-ready.
 
-- ✅ **Полная типизация** - TypeScript на backend и frontend с автогенерацией типов
-- ✅ **Clean Architecture** - Разделение на слои: Domain, Application, Infrastructure, Presentation
-- ✅ **Защита от накрутки** - Ограничение голосов по IP-адресу
-- ✅ **Real-time обновления** - Мгновенное обновление счётчика голосов
-- ✅ **Responsive дизайн** - Адаптивный интерфейс для всех устройств
-- ✅ **Type-safe API** - Автоматическая синхронизация типов между backend и frontend
-- ✅ **Тестирование** - Интеграционные тесты с покрытием основных сценариев
+## Содержание
 
-## 🏗️ Архитектура
+1. [Ключевые преимущества](#ключевые-преимущества)
+2. [Архитектура и дизайн](#архитектура-и-дизайн)
+3. [Данные и типобезопасность](#данные-и-типобезопасность)
+4. [UI/UX особенности](#uiux-особенности)
+5. [Быстрый старт](#быстрый-старт)
+6. [Инструменты качества и скрипты](#инструменты-качества-и-скрипты)
+7. [Тестирование и наблюдаемость](#тестирование-и-наблюдаемость)
+8. [Деплой и продакшен](#деплой-и-продакшен)
+9. [Траблшутинг](#траблшутинг)
+10. [Карта документации](#карта-документации)
+11. [Дорожная карта](#дорожная-карта)
+12. [Лицензия](#лицензия)
 
-### Backend (Clean Architecture)
+## Ключевые преимущества
+
+### Платформа
+
+- **IP-based защита от накрутки**: лимит голосов на IP + уникальность голосов на уровне БД.
+- **Реактивность**: оптимистичные обновления на фронтенде, мгновенные счётчики.
+- **Типобезопасность сквозь стек**: единые типы домена, ошибок и API генерируются из Prisma.
+- **Clean Architecture**: строгие слои Domain → Application → Infrastructure → Presentation.
+- **Автоматизация**: postinstall-скрипты генерируют Prisma клиент и синхронизируют типы.
+
+### UX & Performance
+
+- ⚡ Оптимистичные обновления без мерцания UI.
+- 📱 Responsive дизайн с mobile-first макетом.
+- 🧠 UI state-machine задокументирована и покрывает loading/empty/error/success.
+- 🛡️ Rate limiting на Fastify и строгая валидация входных данных (Zod).
+
+### Инженерная культура
+
+- ✅ TypeScript strict mode и «zero `any` policy» на обоих проектах.
+- ✅ Интеграционные тесты (Vitest + Supertest) покрывают основной бизнес-флоу.
+- ✅ Ручной и автоматический чек-лист продакшена, CI-ready конфигурации.
+
+## Архитектура и дизайн
 
 ```
-src/
-├── domain/              # Бизнес-логика
-│   ├── entities/        # Сущности
-│   └── interfaces/      # Контракты репозиториев
-├── application/         # Use Cases
-│   └── services/        # Сервисы бизнес-логики
-├── infrastructure/      # Технические детали
-│   ├── database/        # Prisma клиент
-│   └── repositories/    # Реализация репозиториев
-└── presentation/        # HTTP слой
-    ├── controllers/     # REST контроллеры
-    ├── routes/          # Маршруты
-    └── validators/      # Zod схемы валидации
+├── backend
+│   ├── domain/ → Бизнес-сущности и интерфейсы
+│   ├── application/ → Use-cases (сервисы)
+│   ├── infrastructure/ → Prisma репозитории, утилиты
+│   └── presentation/ → Fastify контроллеры, маршруты, валидация
+└── frontend
+  ├── api/ → Типизированный клиент на fetch
+  ├── hooks/ → Бизнес-логика (useIdeas, useVote)
+  ├── components/
+  │   ├── features/ideas → карточки, список, кнопка голосования
+  │   └── shared → спиннер, ошибки, пустое состояние
+  └── types/ → Автогенерированные доменные типы
 ```
 
-### Frontend (Feature-based)
+**Backend**
+
+- Fastify 5 с plug-and-play CORS/rate-limit.
+- Prisma ORM с миграциями, seed-скриптом, транзакциями для согласованности голосов.
+- Graceful shutdown, structured logging, конфигурация через `.env`.
+
+**Frontend**
+
+- React 18 + Vite, Tailwind, React Hot Toast (готово к уведомлениям).
+- Feature-based структура, кастомные хуки, композиция компонентов.
+- Реиспользуемые UI состояния и анимации.
+
+## Данные и типобезопасность
+
+| Модель | Поля                                                    | Особенности                                             |
+| ------ | ------------------------------------------------------- | ------------------------------------------------------- |
+| `Idea` | `id`, `title`, `description`, `votesCount`, `createdAt` | Индекс по `votesCount` для сортировки                   |
+| `Vote` | `id`, `ideaId`, `ipAddress`, `createdAt`                | Уникальность `(ideaId, ipAddress)` и каскадное удаление |
+
+### Pipeline синхронизации типов
 
 ```
-src/
-├── api/                 # API клиент
-├── components/
-│   ├── features/        # Компоненты фич
-│   └── shared/          # Переиспользуемые компоненты
-├── hooks/               # Custom React hooks
-└── types/               # TypeScript типы
-    └── generated.ts     # 🤖 Автогенерация из Prisma
+schema.prisma → prisma generate → scripts/generate-types.js
+    ↓                                   ↓
+@prisma/client               backend/src/types/generated.ts
+                     ↓
+              frontend/src/types/generated.ts
 ```
 
-## 🚀 Технологический стек
+`npm run types:generate` обеспечивает единые интерфейсы `IdeaWithVoteStatus`, `ApiResponse`, `VotingError` и type guards (`isVotingError`, `isApiError`).
 
-### Backend
+## UI/UX особенности
 
-- **Node.js 20** + **TypeScript 5**
-- **Fastify 5** - быстрый веб-фреймворк
-- **Prisma 6** - type-safe ORM
-- **PostgreSQL 15** - реляционная БД
-- **Zod 3** - валидация схем
-- **Vitest 3** - тестирование
+- **Loading**: центрированный спиннер `LoadingSpinner`.
+- **Empty**: компонент `EmptyState` с подсказкой для seed-данных.
+- **Error**: единый `ErrorMessage` с типизацией ошибок сети/HTTP.
+- **Voting**: кнопка `VoteButton` с состояниями _idle → voting → voted_ и оптимистичным обновлением списка.
+- **UX Upgrades**: плавные transition, локализация дат на `ru-RU`, устранены мерцания и лишние refetch.
 
-### Frontend
+## Быстрый старт
 
-- **React 18** - UI библиотека
-- **TypeScript 5** - типизация
-- **Vite 5** - сборщик и dev сервер
-- **Tailwind CSS 3** - utility-first CSS
-- **Fetch API** - HTTP запросы
+### 1. Предварительные требования
 
-### DevOps
+- Node.js **20.11+**, npm **10+**
+- PostgreSQL **15+** (локально или в Docker)
+- Git
 
-- **Docker** + **Docker Compose**
-- **tsx** - TypeScript executor
-- **Prisma Migrate** - миграции БД
-
-## 📦 Быстрый старт
-
-### 1. Клонирование
+### 2. Клонировать и установить зависимости
 
 ```bash
 git clone <your-repo-url>
 cd ligiclike
+
+cd backend && npm install
+cd ../frontend && npm install
 ```
 
-### 2. Установка зависимостей
+### 3. Настроить переменные окружения
 
-```bash
-# Backend
-cd backend
-npm install
-
-# Frontend
-cd ../frontend
-npm install
-```
-
-### 3. Настройка окружения
-
-**Backend** - создайте `/backend/.env`:
+`backend/.env`
 
 ```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/voting_platform"
 PORT=3000
+HOST=0.0.0.0
 NODE_ENV=development
-MAX_VOTES_PER_IP=3
+MAX_VOTES_PER_IP=10
+CORS_ORIGIN=http://localhost:5173
+RATE_LIMIT_MAX=100
+RATE_LIMIT_WINDOW=1 minute
 ```
 
-**Frontend** - создайте `/frontend/.env`:
+`frontend/.env`
 
 ```env
 VITE_API_URL=http://localhost:3000
 ```
 
-### 4. База данных
+### 4. Поднять базу данных
+
+- **Docker**: `docker-compose up -d` (поднимает PostgreSQL `voting_platform`).
+- **Локально**: `createdb voting_platform` или через `psql`.
+
+### 5. Применить миграции и seed
 
 ```bash
-# Запустить PostgreSQL через Docker
-docker-compose up -d
-
-# Применить миграции
 cd backend
 npx prisma migrate dev
-
-# (Опционально) Загрузить seed данные
-npx prisma db seed
+npx prisma db seed   # опционально, для демо-данных
 ```
 
-### 5. Запуск
-
-**Терминал 1 - Backend:**
+### 6. Синхронизировать типы
 
 ```bash
+npm run prisma:generate
+npm run types:generate
+```
+
+Postinstall делается автоматически при `npm install`, но вручную полезно после правок схемы.
+
+### 7. Запустить dev-серверы
+
+- Терминал A: `cd backend && npm run dev`
+- Терминал B: `cd frontend && npm run dev`
+
+Приложение доступно на `http://localhost:5173`, API – на `http://localhost:3000`.
+
+## Инструменты качества и скрипты
+
+### Backend (`/backend`)
+
+| Команда                         | Назначение                                         |
+| ------------------------------- | -------------------------------------------------- |
+| `npm run dev`                   | Fastify через `tsx` с live-reload                  |
+| `npm run build`                 | Компиляция TypeScript → `dist/`                    |
+| `npm start`                     | Production старт (`node --import tsconfig-paths`)  |
+| `npm test` / `npm run test:run` | Интеграционные тесты (Vitest)                      |
+| `npm run test:ui`               | Vitest UI runner                                   |
+| `npm run lint` / `lint:fix`     | ESLint (strict, no `any`)                          |
+| `npm run prisma:generate`       | Генерация Prisma клиента                           |
+| `npm run prisma:migrate`        | `prisma migrate dev`                               |
+| `npm run prisma:seed`           | Заполнение демо-данными через `tsx prisma/seed.ts` |
+| `npm run types:generate`        | Генерация общих типов backend/frontend             |
+
+### Frontend (`/frontend`)
+
+| Команда              | Назначение                    |
+| -------------------- | ----------------------------- |
+| `npm run dev`        | Vite dev server (HMR)         |
+| `npm run type-check` | TS проверка без компиляции    |
+| `npm run build`      | `tsc` + production build Vite |
+| `npm run preview`    | Локальный предпросмотр сборки |
+| `npm run lint`       | ESLint (React hooks, refresh) |
+
+## Тестирование и наблюдаемость
+
+- **Интеграционные тесты**: `backend/tests/integration/voting.test.ts` покрывает 6 сценариев, включая лимит голосов, X-Forwarded-For и консистентность данных.
+- **Type checks**: строгие `tsc --noEmit` на обоих проектах.
+- **Логирование**: Fastify logger (Pino) + бизнес-события.
+- **Health check**: `GET /api/ideas` (используется как smoke test).
+
+## Деплой и продакшен
+
+### Production build
+
+```bash
+# Backend
 cd backend
-npm run dev
-```
-
-**Терминал 2 - Frontend:**
-
-```bash
-cd frontend
-npm run dev
-```
-
-Откройте http://localhost:5173 🎉
-
-## 🧪 Тестирование
-
-```bash
-# Backend интеграционные тесты
-cd backend
-npm test
-
-# Frontend type checking
-cd frontend
-npm run type-check
-
-# Production build
 npm run build
+NODE_ENV=production npm start
+
+# Frontend
+cd frontend
+echo "VITE_API_URL=https://your-api-domain.com" > .env
+npm run build
+# Разверните содержимое dist/ на статическом хостинге
 ```
 
-## 📚 Документация
+### Docker & база данных
 
-- [Backend README](./backend/README.md) - Подробная документация backend
-- [Frontend README](./frontend/README.md) - Подробная документация frontend
-- [Type Generation](./TYPE_GENERATION.md) - Автогенерация типов
-- [UI States](./UI_STATES.md) - Все состояния интерфейса (загрузка, ошибки, пустое состояние)
-- [UX Improvements](./UX_IMPROVEMENTS.md) - Оптимизация пользовательского опыта
-- [Deployment Guide](./DEPLOYMENT.md) - Инструкции по развертыванию
-- [Project Plan](./PROJECT_PLAN.md) - План разработки
+- `docker-compose.yml` разворачивает PostgreSQL 15 (данные → volume `postgres_data`).
+- Для полного контейнерного деплоя добавьте сервисы backend/frontend или используйте PaaS (Railway, Render, Fly.io, Vercel, Netlify).
 
-## 🔑 Основные API эндпоинты
+### Рекомендуемые платформы
 
-```
-GET    /api/ideas         # Получить все идеи с статусом голосования
-GET    /api/ideas/:id     # Получить конкретную идею
-POST   /api/ideas/:id/vote # Проголосовать за идею
-```
+- **Backend**: Railway, Render, Fly.io, DigitalOcean App Platform.
+- **Frontend**: Vercel, Netlify, Cloudflare Pages.
+- **DB**: Supabase, Neon, Railway, DigitalOcean Managed PostgreSQL.
 
-## 🎯 Ключевые фичи реализации
+### Production чек-лист
 
-### Автоматическая генерация типов
+- [ ] Установить `NODE_ENV=production`, `DATABASE_URL` → prod экземпляр.
+- [ ] Настроить CORS/certificates, HTTPS, rate limiting.
+- [ ] Настроить логи и мониторинг (Sentry, LogRocket, DataDog).
+- [ ] Настроить резервное копирование и connection pooling.
+- [ ] Проверить Lighthouse, bundle size, CSP заголовки.
 
-```bash
-# Запускается автоматически при изменении schema.prisma
-cd backend
-npm run prisma:generate   # подготавливает DMMF, если нужно
-npm run types:generate    # синхронизирует типы для обоих приложений
-```
+## Траблшутинг
 
-Что делает `types:generate`:
+| Ситуация                     | Диагностика                                                                       |
+| ---------------------------- | --------------------------------------------------------------------------------- |
+| Backend не стартует          | `cd backend && npx prisma db pull`, `npx prisma migrate status`, проверить `.env` |
+| Ошибка подключения фронтенда | Проверить `VITE_API_URL`, CORS, запущен ли backend                                |
+| Типы рассинхронизированы     | `cd backend && npm run prisma:generate && npm run types:generate`                 |
+| БД отстала от схемы          | `npx prisma migrate reset` (dev only)                                             |
 
-1. Читает Prisma DMMF и автоматически строит интерфейсы для всех моделей.
-2. Добавляет бизнес-типы, ошибки и type-guard функции из единого шаблона.
-3. Записывает результат в два файла:
+## Карта документации
 
-- `backend/src/types/generated.ts`
-- `frontend/src/types/generated.ts`
+- [`backend/README.md`](./backend/README.md) — технические детали API, конфигурации, тестов.
+- [`frontend/README.md`](./frontend/README.md) — архитектура UI, хуки, стили.
+- [`DEPLOYMENT.md`](./DEPLOYMENT.md) — расширенный гид по деплою и CI/CD.
+- [`TYPE_GENERATION.md`](./TYPE_GENERATION.md) — подробности генерации типов.
+- [`UI_STATES.md`](./UI_STATES.md) — состояния интерфейса и тест-кейсы.
+- [`SUMMARY.md`](./SUMMARY.md) — история разработки и метрики.
 
-Использование:
+## Лицензия
 
-- Бэкенд импортирует типы через `backend/src/types/index.ts`, который реэкспортирует `./generated`.
-- Фронтенд использует `frontend/src/types/api.types.ts`, реэкспортирующий `./generated` для компонентов и хуков.
-
-Таким образом доменные и API типы (Idea, Vote, IdeaWithVoteStatus, ApiResponse, ApiError, VotingError и type guards) всегда синхронизированы между backend и frontend.
-
-### Защита от накрутки
-
-- IP-адрес определяется на сервере
-- Проверка дубликатов на уровне БД (unique constraint)
-- Ограничение голосов per IP (configurable)
-- Транзакции для предотвращения race conditions
-
-### Type-safe коммуникация
-
-```typescript
-// Backend генерирует типы
-interface IdeaWithVoteStatus {
-  id: number
-  title: string
-  description: string
-  votesCount: number
-  hasVoted: boolean // Автоматически добавляется для текущего IP
-  createdAt: Date
-}
-
-// Frontend использует те же типы
-const ideas: IdeaWithVoteStatus[] = await apiClient.getIdeas()
-```
-
-## 🤝 Вклад в проект
-
-1. Fork репозиторий
-2. Создайте feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Push в branch (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
-
-## 📝 Лицензия
-
-MIT License - см. [LICENSE](LICENSE) для деталей
-
-## 🙏 Благодарности
-
-- [Fastify](https://fastify.io/) - за отличный веб-фреймворк
-- [Prisma](https://prisma.io/) - за type-safe ORM
-- [Vite](https://vitejs.dev/) - за молниеносный dev сервер
-- [Tailwind CSS](https://tailwindcss.com/) - за утилитарный подход к стилям
+MIT — см. [LICENSE](./LICENSE).
 
 ---
 
-Сделано с ❤️ и TypeScript
+Сделано с ❤️, Fastify и TypeScript.

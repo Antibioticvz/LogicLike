@@ -363,7 +363,6 @@ echo $DATABASE_URL
 - [Backend README](./backend/README.md)
 - [Frontend README](./frontend/README.md)
 - [Type Generation Guide](./TYPE_GENERATION.md)
-- [Project Plan](./PROJECT_PLAN.md)
 
 ## 🆘 Поддержка
 

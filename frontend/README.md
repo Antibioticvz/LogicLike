@@ -1,250 +1,120 @@
-# Frontend - Voting Platform
+# Frontend — Voting Platform
 
-React + TypeScript + Vite + Tailwind CSS frontend for the voting platform.
+> React 18 + Vite + Tailwind интерфейс с оптимистичными обновлениями.
 
-## 🚀 Quick Start
+- 📖 Корневой обзор: [../README.md](../README.md)
+- 🧠 UI состояния: [../UI_STATES.md](../UI_STATES.md)
 
-### Prerequisites
+## 🚀 Быстрый старт
 
-- Node.js 20.11+
-- npm 10+
-- Backend server running on port 3000
+### Требования
 
-### Installation
+- Node.js **20.11+** и npm **10+**
+- Запущенный backend `http://localhost:3000`
+
+### Установка и запуск
 
 ```bash
-# Install dependencies
 npm install
-
-# Copy environment variables
 cp .env.example .env
-
-# Start development server
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`
+Приложение доступно на `http://localhost:5173` (Vite HMR).
 
-## 📁 Project Structure
+## 📁 Структура
 
 ```
 src/
-├── api/                    # API client layer
-│   └── client.ts          # Type-safe API methods
-├── components/            # React components
-│   ├── features/          # Feature-specific components
-│   │   └── ideas/
-│   │       ├── IdeaCard.tsx      # Idea card component
-│   │       ├── IdeaList.tsx      # Ideas list container
-│   │       └── VoteButton.tsx    # Vote button component
-│   └── shared/            # Reusable components
-│       ├── ErrorMessage.tsx
-│       └── LoadingSpinner.tsx
-├── hooks/                 # Custom React hooks
-│   ├── useIdeas.ts       # Ideas data fetching
-│   └── useVote.ts        # Voting logic
-├── types/                # TypeScript types
-│   ├── generated.ts      # 🤖 Auto-generated from backend
-│   └── api.types.ts      # API type exports
-├── App.tsx               # Main app component
-└── main.tsx              # App entry point
+├── api/                # Клиент с типобезопасными методами
+├── components/
+│   ├── features/ideas  # IdeaCard, IdeaList, VoteButton
+│   └── shared          # ErrorMessage, LoadingSpinner, EmptyState
+├── hooks/              # useIdeas, useVote
+├── types/              # generated.ts (авто) + api.types.ts
+├── App.tsx             # Корневой UI составной компонент
+└── main.tsx            # Точка входа React
 ```
 
-## 🎨 Features
+## 🎨 Ключевые особенности
 
-- ✅ **Type-safe API** - Full TypeScript coverage
-- ✅ **Auto-generated types** - Synced with backend Prisma schema
-- ✅ **Responsive design** - Mobile-first approach
-- ✅ **Real-time updates** - Vote counts update immediately
-- ✅ **Error handling** - User-friendly error messages
-- ✅ **Loading states** - Smooth UX with spinners
-- ✅ **Vote status** - Visual feedback for voted items
-- ✅ **IP-based limits** - Clear indication of voting status
+- ✅ **Optimistic UI**: мгновенное обновление карточки без мерцания.
+- ✅ **Type-safe API**: импорт `IdeaWithVoteStatus`, `VotingError` из автогенерённых типов.
+- ✅ **Responsive**: mobile-first сетка, Tailwind utility классы.
+- ✅ **UX сценарии**: обработаны loading/empty/error/voted состояния.
+- ✅ **Готовность к toast**: `react-hot-toast` уже в зависимостях.
 
-## 🛠️ Development
+## 🛠️ Скрипты
 
-### Available Scripts
+| Команда              | Назначение                               |
+| -------------------- | ---------------------------------------- |
+| `npm run dev`        | Vite dev server с HMR                    |
+| `npm run type-check` | Строгая проверка типов (`tsc --noEmit`)  |
+| `npm run build`      | Production сборка (`tsc` + `vite build`) |
+| `npm run preview`    | Локальный предпросмотр _dist_            |
+| `npm run lint`       | ESLint (React hooks + refresh правила)   |
 
-```bash
-# Development server with hot reload
-npm run dev
+## 🔗 Интеграция с backend
 
-# Type checking
-npm run type-check
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Lint code
-npm run lint
-```
-
-### Type Generation
-
-Types are automatically generated from the backend Prisma schema:
-
-```bash
-# In backend directory
-npm run types:generate
-```
-
-This creates `src/types/generated.ts` with all domain types, API responses, and error types.
-
-## 🎯 Component Architecture
-
-### Container/Presentational Pattern
-
-- **Containers** (IdeaList) - Handle logic and state
-- **Presentational** (IdeaCard, VoteButton) - Pure UI components
-
-### Custom Hooks
-
-- `useIdeas()` - Fetches and manages ideas list
-- `useVote()` - Handles voting logic and error states
-
-### Type Safety
-
-All components use generated types:
+- Базовый URL: `import.meta.env.VITE_API_URL` (см. `.env`).
+- Типы синхронизируются скриптом `npm run types:generate` в `/backend`.
+- Ошибки проверяются через `isVotingError` и `isApiError`.
 
 ```typescript
-import type { IdeaWithVoteStatus } from "@/types/api.types"
+import { isVotingError } from "@/types/api.types"
 
-interface Props {
-  idea: IdeaWithVoteStatus
-}
-```
-
-## 🌐 API Integration
-
-### Endpoints
-
-- `GET /api/ideas` - Get all ideas with vote status
-- `GET /api/ideas/:id` - Get single idea
-- `POST /api/ideas/:id/vote` - Vote for an idea
-
-### Error Handling
-
-The app handles various error types:
-
-- Network errors
-- Duplicate vote attempts
-- Vote limit exceeded
-- Invalid ideas
-
-```typescript
-import { isVotingError } from '@/types/api.types'
-
-if (isVotingError(error)) {
-  // Handle specific voting errors
-  switch(error.type) {
-    case 'DUPLICATE_VOTE': ...
-    case 'VOTE_LIMIT_EXCEEDED': ...
+const handleVoteError = (error: unknown) => {
+  if (isVotingError(error)) {
+    // DUPLICATE_VOTE, VOTE_LIMIT_EXCEEDED
   }
 }
 ```
 
-## 🎨 Styling
+## 🎯 Паттерны
 
-### Tailwind CSS
+- **Container/Presentational**: `IdeaList` (логика) ↔ `IdeaCard`/`VoteButton` (UI).
+- **Custom Hooks**: `useIdeas` (fetch + optimistic cache), `useVote` (мутации, ошибки).
+- **Композиция**: переиспользуемые shared-компоненты и состояния.
 
-Utility-first CSS framework for rapid UI development:
+## 🎨 Стили
 
-```tsx
-<div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
-  {/* Component content */}
-</div>
-```
+- Tailwind CSS с кастомными токенами цвета.
+- Transition для кнопок и карточек (`transition-all duration-200`).
+- Локализация даты: `toLocaleDateString('ru-RU', { month: 'short', ... })`.
 
-### Responsive Design
+## ⚙️ Конфигурация
 
-Mobile-first breakpoints:
-
-- `sm:` - 640px+
-- `md:` - 768px+
-- `lg:` - 1024px+
-- `xl:` - 1280px+
-
-## 🔧 Configuration
-
-### Environment Variables
-
-Create `.env` file:
+`.env`:
 
 ```env
 VITE_API_URL=http://localhost:3000
 ```
 
-### Vite Configuration
+`vite.config.ts` настраивает алиас `@/*`, strict bundling и preview proxy.
 
-See `vite.config.ts` for:
+## 🧪 Проверка качества
 
-- Path aliases (`@/*`)
-- API proxy configuration
-- Build optimizations
+- `npm run type-check` — гарантирует отсутствие ошибок типов.
+- `npm run lint` — стиль и best practices (React Hooks).
 
-## 📦 Build & Deploy
+## 🐛 Траблшутинг
 
-### Production Build
+| Проблема         | Решение                                                              |
+| ---------------- | -------------------------------------------------------------------- |
+| Нет типов        | `cd ../backend && npm run prisma:generate && npm run types:generate` |
+| 0 идей в списке  | `cd ../backend && npm run prisma:seed`                               |
+| 409 ошибки часто | Проверить лимит `MAX_VOTES_PER_IP` и повторные клики                 |
+| Нет связи с API  | Убедитесь, что backend запущен и `VITE_API_URL` корректен            |
 
-```bash
-npm run build
-```
-
-Outputs to `dist/` directory.
-
-### Preview Build
+## 📦 Сборка и деплой
 
 ```bash
-npm run preview
+npm run build   # сборка → dist/
+npm run preview # smoke-test production билд
 ```
 
-Serves the production build locally.
+Деплойте содержимое `dist/` на Vercel, Netlify или другой статический хостинг. Перед сборкой обновите `VITE_API_URL` на production домен.
 
-## 🧪 Best Practices
+---
 
-1. **Type Safety** - Always use generated types
-2. **Component Decomposition** - Keep components small and focused
-3. **Custom Hooks** - Extract logic into reusable hooks
-4. **Error Boundaries** - Handle errors gracefully
-5. **Accessibility** - Use semantic HTML and ARIA labels
-6. **Performance** - Lazy load components when needed
-
-## 📚 Tech Stack
-
-- **React 18** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Styling
-- **Fetch API** - HTTP requests
-
-## 🐛 Troubleshooting
-
-### Types not found
-
-Run type generation:
-
-```bash
-cd ../backend
-npm run types:generate
-```
-
-### API connection fails
-
-1. Check backend is running on port 3000
-2. Verify `VITE_API_URL` in `.env`
-3. Check CORS settings in backend
-
-### Build fails
-
-```bash
-# Clean install
-rm -rf node_modules package-lock.json
-npm install
-```
-
-## 📝 License
-
-MIT
+Сделано с ❤️ и React.
