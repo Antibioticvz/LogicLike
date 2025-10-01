@@ -1,5 +1,6 @@
 import { useState } from "react"
 import toast, { Toaster } from "react-hot-toast"
+
 import { IdeaList } from "./components/features/ideas/IdeaList"
 import { ErrorMessage } from "./components/shared/ErrorMessage"
 import { LoadingSpinner } from "./components/shared/LoadingSpinner"
@@ -17,16 +18,11 @@ function App() {
   const handleVote = async (ideaId: number) => {
     try {
       setVoteError(null)
-
-      // Вызываем API и получаем обновлённую идею
       const updatedIdea = await vote(ideaId)
 
-      // Проверяем что получили валидные данные
       if (updatedIdea && updatedIdea.id) {
-        // Мгновенно обновляем UI с новыми данными
         updateIdeaOptimistically(updatedIdea)
 
-        // Показываем success toast
         toast.success("Голос учтён!", {
           icon: "✓",
           duration: 2000,
@@ -36,11 +32,9 @@ function App() {
         throw new Error("Invalid response from server")
       }
     } catch (error) {
-      // Показываем ошибку пользователю
       const apiError = error as ApiError
       setVoteError(apiError)
 
-      // Показываем toast с ошибкой
       if (isVotingError(apiError)) {
         switch (apiError.type) {
           case "DUPLICATE_VOTE":
@@ -87,10 +81,11 @@ function App() {
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            LogicLike Voting Platform
+            Платформа голосования LogicLike
           </h1>
           <p className="text-gray-600">
-            Vote for your favorite ideas • Each IP can vote up to 10 times
+            Голосуйте за свои любимые идеи • Каждый IP может голосовать до 10
+            раз
           </p>
         </header>
 
