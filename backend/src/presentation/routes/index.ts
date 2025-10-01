@@ -1,6 +1,9 @@
-import type { IdeasController } from "@/presentation/controllers/ideas.controller.js"
-import type { VotingController } from "@/presentation/controllers/voting.controller.js"
 import type { FastifyInstance } from "fastify"
+
+import type {
+  IdeasController,
+  VotingController,
+} from "@/presentation/controllers/index.js"
 
 export function registerRoutes(
   fastify: FastifyInstance,

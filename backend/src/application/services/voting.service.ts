@@ -4,7 +4,7 @@ import { VotingError, VotingErrorType } from "@/domain/entities/index.js"
 import type {
   IIdeasRepository,
   IVotesRepository,
-} from "@/domain/interfaces/repositories.js"
+} from "@/domain/interfaces/index.js"
 
 export class VotingService {
   constructor(
