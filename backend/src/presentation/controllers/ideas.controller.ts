@@ -1,7 +1,9 @@
+import { Prisma } from "@prisma/client"
 import type { FastifyReply, FastifyRequest } from "fastify"
 
 import type { IdeasService } from "@/application/services/index.js"
 import { extractIpAddress } from "@/infrastructure/utils/index.js"
+import { IdeaIdParamsSchema } from "@/presentation/validators/index.js"
 
 export class IdeasController {
   constructor(private readonly ideasService: IdeasService) {}
@@ -15,6 +17,24 @@ export class IdeasController {
         data: ideas,
       })
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientInitializationError) {
+        request.log.error(error, "Database connection failed")
+        await reply.code(503).send({
+          error: "SERVICE_UNAVAILABLE",
+          message: "Database connection failed. Please try again later.",
+        })
+        return
+      }
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        request.log.error({ error, code: error.code }, "Prisma known error")
+        await reply.code(500).send({
+          error: "DATABASE_ERROR",
+          message: "Database operation failed",
+        })
+        return
+      }
+
       request.log.error(error)
       await reply.code(500).send({
         error: "INTERNAL_SERVER_ERROR",
@@ -28,16 +48,19 @@ export class IdeasController {
     reply: FastifyReply
   ): Promise<void> {
     try {
-      const ideaId = parseInt(request.params.id, 10)
+      // Валидация с Zod
+      const validationResult = IdeaIdParamsSchema.safeParse(request.params)
 
-      if (isNaN(ideaId)) {
+      if (!validationResult.success) {
         await reply.code(400).send({
           error: "INVALID_ID",
-          message: "Invalid idea ID",
+          message:
+            validationResult.error.issues[0]?.message || "Invalid idea ID",
         })
         return
       }
 
+      const ideaId = validationResult.data.id
       const ipAddress = extractIpAddress(request)
       const idea = await this.ideasService.getIdeaById(ideaId, ipAddress)
 
@@ -53,6 +76,24 @@ export class IdeasController {
         data: idea,
       })
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientInitializationError) {
+        request.log.error(error, "Database connection failed")
+        await reply.code(503).send({
+          error: "SERVICE_UNAVAILABLE",
+          message: "Database connection failed. Please try again later.",
+        })
+        return
+      }
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        request.log.error({ error, code: error.code }, "Prisma known error")
+        await reply.code(500).send({
+          error: "DATABASE_ERROR",
+          message: "Database operation failed",
+        })
+        return
+      }
+
       request.log.error(error)
       await reply.code(500).send({
         error: "INTERNAL_SERVER_ERROR",

@@ -1,43 +1,46 @@
 import type { IdeaWithVoteStatus } from "@/domain/entities/index.js"
-import type {
-  IIdeasRepository,
-  IVotesRepository,
-} from "@/domain/interfaces/index.js"
+import prisma from "@/infrastructure/database/prisma.js"
 
 export class IdeasService {
-  constructor(
-    private readonly ideasRepository: IIdeasRepository,
-    private readonly votesRepository: IVotesRepository
-  ) {}
-
   async getAllIdeas(ipAddress: string): Promise<IdeaWithVoteStatus[]> {
-    const ideas = await this.ideasRepository.findAll()
+    const ideas = await prisma.idea.findMany({
+      orderBy: { votesCount: "desc" },
+      include: {
+        votes: {
+          where: { ipAddress },
+          select: { id: true },
+        },
+      },
+    })
 
-    // Get all votes for this IP to mark which ideas were voted
-    const userVotes = await this.votesRepository.findByIpAddress(ipAddress)
-    const votedIdeaIds = new Set(userVotes.map(vote => vote.ideaId))
-
+    // Маппим результат в нужный формат с флагом hasVoted
     return ideas.map(idea => ({
       id: idea.id,
       title: idea.title,
       description: idea.description,
       votesCount: idea.votesCount,
       createdAt: idea.createdAt,
-      hasVoted: votedIdeaIds.has(idea.id),
+      hasVoted: idea.votes.length > 0,
     }))
   }
 
   async getIdeaById(
-    id: number,
+    ideaId: number,
     ipAddress: string
   ): Promise<IdeaWithVoteStatus | null> {
-    const idea = await this.ideasRepository.findById(id)
+    const idea = await prisma.idea.findUnique({
+      where: { id: ideaId },
+      include: {
+        votes: {
+          where: { ipAddress },
+          select: { id: true },
+        },
+      },
+    })
 
     if (!idea) {
       return null
     }
-
-    const hasVoted = await this.votesRepository.existsByIdeaAndIp(id, ipAddress)
 
     return {
       id: idea.id,
@@ -45,7 +48,7 @@ export class IdeasService {
       description: idea.description,
       votesCount: idea.votesCount,
       createdAt: idea.createdAt,
-      hasVoted,
+      hasVoted: idea.votes.length > 0,
     }
   }
 }

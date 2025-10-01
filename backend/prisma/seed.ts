@@ -83,12 +83,12 @@ const sampleIdeas = [
 async function main(): Promise<void> {
   console.log("🌱 Starting database seeding...")
 
-  // Clear existing data
+  // Очистить существующие данные
   await prisma.vote.deleteMany()
   await prisma.idea.deleteMany()
   console.log("✨ Cleared existing data")
 
-  // Create ideas
+  // Создать идеи
   for (const ideaData of sampleIdeas) {
     const idea = await prisma.idea.create({
       data: ideaData,

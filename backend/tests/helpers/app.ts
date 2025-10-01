@@ -16,31 +16,31 @@ import { registerRoutes } from "@/presentation/routes/index.js"
 
 export async function build(): Promise<FastifyInstance> {
   const fastify = Fastify({
-    logger: false, // Disable logging in tests
+    logger: false, // Отключить логирование в тестах
   })
 
-  // Register plugins
+  // Регистрация плагинов
   await fastify.register(cors, {
     origin: config.corsOrigin,
     credentials: true,
   })
 
   await fastify.register(rateLimit, {
-    max: 1000, // Higher limit for tests
+    max: 1000, // Более высокий лимит для тестов
     timeWindow: 60000,
   })
 
-  // Dependency Injection
+  // Внедрение зависимостей
   const ideasRepository = new IdeasRepository()
   const votesRepository = new VotesRepository()
 
-  const ideasService = new IdeasService(ideasRepository, votesRepository)
+  const ideasService = new IdeasService()
   const votingService = new VotingService(ideasRepository, votesRepository)
 
   const ideasController = new IdeasController(ideasService)
   const votingController = new VotingController(votingService)
 
-  // Register routes
+  // Регистрация маршрутов
   await registerRoutes(fastify, ideasController, votingController)
 
   return fastify
