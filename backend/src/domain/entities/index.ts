@@ -11,16 +11,12 @@ export interface IdeaWithVoteStatus {
 
 export interface VoteResult {
   success: boolean
-  idea: {
-    id: number
-    votesCount: number
-    hasVoted: boolean
-  }
+  data: IdeaWithVoteStatus
 }
 
 export enum VotingErrorType {
   VOTE_LIMIT_EXCEEDED = "VOTE_LIMIT_EXCEEDED",
-  ALREADY_VOTED = "ALREADY_VOTED",
+  DUPLICATE_VOTE = "DUPLICATE_VOTE",
   IDEA_NOT_FOUND = "IDEA_NOT_FOUND",
 }
 

@@ -33,6 +33,11 @@ class ApiClient {
         try {
           const errorData = await response.json()
           error.message = errorData.message || error.message
+
+          // Сохраняем type для VotingError если есть
+          if (errorData.type) {
+            ;(error as any).type = errorData.type
+          }
         } catch {
           // If JSON parsing fails, use the default message
         }

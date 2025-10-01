@@ -161,6 +161,7 @@ npm run build
 - [Frontend README](./frontend/README.md) - Подробная документация frontend
 - [Type Generation](./TYPE_GENERATION.md) - Автогенерация типов
 - [UI States](./UI_STATES.md) - Все состояния интерфейса (загрузка, ошибки, пустое состояние)
+- [UX Improvements](./UX_IMPROVEMENTS.md) - Оптимизация пользовательского опыта
 - [Deployment Guide](./DEPLOYMENT.md) - Инструкции по развертыванию
 - [Project Plan](./PROJECT_PLAN.md) - План разработки
 

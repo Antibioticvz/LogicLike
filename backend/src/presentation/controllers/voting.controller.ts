@@ -69,6 +69,7 @@ export class VotingController {
 
         await reply.code(statusCode).send({
           error: error.type,
+          type: error.type, // Добавляем type для frontend type guard
           message: error.message,
         })
         return

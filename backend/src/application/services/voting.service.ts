@@ -39,7 +39,7 @@ export class VotingService {
       // LOGGING: Попытка повторного голосования
       this.logger?.info({ ideaId, ipAddress }, "Duplicate vote attempt blocked")
       throw new VotingError(
-        VotingErrorType.ALREADY_VOTED,
+        VotingErrorType.DUPLICATE_VOTE,
         "You have already voted for this idea"
       )
     }
@@ -91,11 +91,15 @@ export class VotingService {
       "Vote successfully recorded"
     )
 
+    // Возвращаем в формате, совместимом с другими эндпоинтами
     return {
       success: true,
-      idea: {
+      data: {
         id: result.id,
+        title: result.title,
+        description: result.description,
         votesCount: result.votesCount,
+        createdAt: result.createdAt,
         hasVoted: true,
       },
     }

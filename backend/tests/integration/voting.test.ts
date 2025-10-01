@@ -43,9 +43,9 @@ describe("Ограничения голосования на основе IP", (
     expect(response.statusCode).toBe(201)
     const body = JSON.parse(response.body)
     expect(body.success).toBe(true)
-    expect(body.idea.id).toBe(1)
-    expect(body.idea.votesCount).toBe(1)
-    expect(body.idea.hasVoted).toBe(true)
+    expect(body.data.id).toBe(1)
+    expect(body.data.votesCount).toBe(1)
+    expect(body.data.hasVoted).toBe(true)
 
     // Проверить в базе данных
     const idea = await prisma.idea.findUnique({ where: { id: 1 } })
@@ -60,7 +60,7 @@ describe("Ограничения голосования на основе IP", (
   /**
    * Сценарий 2: Предотвращение дублированных голосов
    * IP голосует за идею #1 дважды
-   * Ожидается: 409 Conflict, error: "ALREADY_VOTED"
+   * Ожидается: 409 Conflict, error: "DUPLICATE_VOTE"
    */
   it("должен предотвращать дублированные голоса с одного IP", async () => {
     // Первый голос
@@ -83,7 +83,7 @@ describe("Ограничения голосования на основе IP", (
 
     expect(response.statusCode).toBe(409)
     const body = JSON.parse(response.body)
-    expect(body.error).toBe("ALREADY_VOTED")
+    expect(body.error).toBe("DUPLICATE_VOTE")
 
     // Проверить, что только один голос в базе данных
     const voteCount = await prisma.vote.count({
@@ -219,7 +219,7 @@ describe("Ограничения голосования на основе IP", (
     expect(response.statusCode).toBe(201)
     const body = JSON.parse(response.body)
     expect(body.success).toBe(true)
-    expect(body.idea.votesCount).toBe(2) // IP1 + IP2
+    expect(body.data.votesCount).toBe(2) // IP1 + IP2
 
     // Проверить счетчики голосов
     const ip1Votes = await prisma.vote.count({
@@ -264,7 +264,7 @@ describe("Ограничения голосования на основе IP", (
 
     expect(response2.statusCode).toBe(409)
     const body = JSON.parse(response2.body)
-    expect(body.error).toBe("ALREADY_VOTED")
+    expect(body.error).toBe("DUPLICATE_VOTE")
 
     // Проверить, что голос был записан с правильным IP
     const vote = await prisma.vote.findFirst({
