@@ -1,5 +1,5 @@
-import type { IdeaWithVoteStatus } from "@/types/api.types"
 import { memo } from "react"
+import type { IdeaWithVoteStatus } from "@/types/api.types"
 
 interface VoteButtonProps {
   idea: IdeaWithVoteStatus

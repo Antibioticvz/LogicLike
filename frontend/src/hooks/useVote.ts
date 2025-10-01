@@ -1,6 +1,6 @@
+import { useState } from "react"
 import { apiClient } from "@/api/client"
 import type { ApiError } from "@/types/api.types"
-import { useState } from "react"
 
 export function useVote() {
   const [votingId, setVotingId] = useState<number | null>(null)

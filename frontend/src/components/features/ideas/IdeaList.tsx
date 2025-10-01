@@ -1,6 +1,6 @@
+import { memo, useMemo } from "react"
 import { EmptyState } from "@/components/shared/EmptyState"
 import type { IdeaWithVoteStatus } from "@/types/api.types"
-import { memo, useMemo } from "react"
 
 import { IdeaCard } from "./IdeaCard"
 

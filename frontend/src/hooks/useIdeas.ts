@@ -1,6 +1,6 @@
+import { useCallback, useEffect, useState } from "react"
 import { apiClient } from "@/api/client"
 import type { ApiError, IdeaWithVoteStatus } from "@/types/api.types"
-import { useCallback, useEffect, useState } from "react"
 
 export function useIdeas() {
   const [ideas, setIdeas] = useState<IdeaWithVoteStatus[]>([])

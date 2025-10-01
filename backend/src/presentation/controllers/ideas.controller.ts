@@ -1,5 +1,5 @@
-import { Prisma } from "@prisma/client"
 import type { FastifyReply, FastifyRequest } from "fastify"
+import { Prisma } from "@prisma/client"
 
 import type { IdeasService } from "@/application/services/index.js"
 import { extractIpAddress } from "@/infrastructure/utils/index.js"

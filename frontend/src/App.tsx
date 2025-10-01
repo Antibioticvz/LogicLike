@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react"
 import toast, { Toaster } from "react-hot-toast"
-
 import { IdeaList } from "@/components/features/ideas/IdeaList"
 import { ErrorMessage } from "@/components/shared/ErrorMessage"
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner"

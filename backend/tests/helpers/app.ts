@@ -1,6 +1,6 @@
+import Fastify, { FastifyInstance } from "fastify"
 import cors from "@fastify/cors"
 import rateLimit from "@fastify/rate-limit"
-import Fastify, { FastifyInstance } from "fastify"
 
 import { IdeasService, VotingService } from "@/application/services/index.js"
 import config from "@/config/index.js"
