@@ -10,12 +10,18 @@ class ApiClient {
     const url = `${API_BASE_URL}${endpoint}`
 
     try {
+      const headers: Record<string, string> = {
+        ...(options?.headers as Record<string, string>),
+      }
+
+      // Добавляем Content-Type только если есть body
+      if (options?.body) {
+        headers["Content-Type"] = "application/json"
+      }
+
       const response = await fetch(url, {
         ...options,
-        headers: {
-          "Content-Type": "application/json",
-          ...options?.headers,
-        },
+        headers,
       })
 
       if (!response.ok) {
