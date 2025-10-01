@@ -7,6 +7,6 @@ export type {
   Vote,
   VotingError,
   VotingErrorType,
-} from "./generated"
+} from "./generated.ts"
 
-export { isApiError, isVotingError } from "./generated"
+export { isApiError, isVotingError } from "./generated.ts"

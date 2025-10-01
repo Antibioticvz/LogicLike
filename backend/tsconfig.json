@@ -30,6 +30,6 @@
     "sourceMap": true,
     "types": ["node", "vitest/globals"]
   },
-  "include": ["src/**/*", "prisma/**/*", "tests/**/*"],
+  "include": ["src/**/*", "prisma/**/*", "tests/**/*", "generated/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

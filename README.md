@@ -180,14 +180,25 @@ POST   /api/ideas/:id/vote # Проголосовать за идею
 ```bash
 # Запускается автоматически при изменении schema.prisma
 cd backend
-npm run types:generate
+npm run prisma:generate   # подготавливает DMMF, если нужно
+npm run types:generate    # синхронизирует типы для обоих приложений
 ```
 
-Генерирует TypeScript типы для frontend из Prisma схемы:
+Что делает `types:generate`:
 
-- Domain типы (Idea, Vote)
-- API типы (ApiResponse, ApiError, VotingError)
-- Type guards для runtime проверки
+1. Читает Prisma DMMF и автоматически строит интерфейсы для всех моделей.
+2. Добавляет бизнес-типы, ошибки и type-guard функции из единого шаблона.
+3. Записывает результат в два файла:
+
+- `backend/src/types/generated.ts`
+- `frontend/src/types/generated.ts`
+
+Использование:
+
+- Бэкенд импортирует типы через `backend/src/types/index.ts`, который реэкспортирует `./generated`.
+- Фронтенд использует `frontend/src/types/api.types.ts`, реэкспортирующий `./generated` для компонентов и хуков.
+
+Таким образом доменные и API типы (Idea, Vote, IdeaWithVoteStatus, ApiResponse, ApiError, VotingError и type guards) всегда синхронизированы между backend и frontend.
 
 ### Защита от накрутки
 

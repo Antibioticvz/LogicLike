@@ -1,7 +1,6 @@
-import type { Vote } from "@prisma/client"
-
-import prisma from "@/infrastructure/database/prisma.js"
 import type { IVotesRepository } from "@/domain/interfaces/index.js"
+import prisma from "@/infrastructure/database/prisma.js"
+import type { Vote } from "@/types/index.js"
 
 export class VotesRepository implements IVotesRepository {
   async create(ideaId: number, ipAddress: string): Promise<Vote> {
