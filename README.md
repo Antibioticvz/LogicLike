@@ -2,8 +2,6 @@
 
 Современная платформа для голосования за идеи с защитой от накрутки голосов и единым типобезопасным API.
 
-> Productivity-first, type-safe, production-ready.
-
 ## Содержание
 
 1. [Ключевые преимущества](#ключевые-преимущества)
@@ -176,7 +174,6 @@ Postinstall делается автоматически при `npm install`, н
 | `npm run build`                 | Компиляция TypeScript → `dist/`                    |
 | `npm start`                     | Production старт (`node --import tsconfig-paths`)  |
 | `npm test` / `npm run test:run` | Интеграционные тесты (Vitest)                      |
-| `npm run test:ui`               | Vitest UI runner                                   |
 | `npm run lint` / `lint:fix`     | ESLint (strict, no `any`)                          |
 | `npm run prisma:generate`       | Генерация Prisma клиента                           |
 | `npm run prisma:migrate`        | `prisma migrate dev`                               |

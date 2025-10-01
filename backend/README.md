@@ -62,7 +62,6 @@ API будет доступно на `http://localhost:3000`.
 | `npm run build`                     | Компиляция TypeScript → `dist/`                                            |
 | `npm start`                         | Production запуск (`node --import=tsconfig-paths/register dist/server.js`) |
 | `npm test` / `npm run test:run`     | Vitest интеграционные тесты                                                |
-| `npm run test:ui`                   | Vitest UI runner                                                           |
 | `npm run lint` / `npm run lint:fix` | ESLint (strict)                                                            |
 | `npm run prisma:generate`           | Генерация Prisma клиента                                                   |
 | `npm run prisma:migrate`            | `prisma migrate dev`                                                       |
