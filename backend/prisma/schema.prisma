@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Idea {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  votesCount  Int      @default(0) @map("votes_count")
+  createdAt   DateTime @default(now()) @map("created_at")
+  votes       Vote[]
+
+  @@index([votesCount(sort: Desc)])
+  @@map("ideas")
+}
+
+model Vote {
+  id        Int      @id @default(autoincrement())
+  ideaId    Int      @map("idea_id")
+  ipAddress String   @map("ip_address") @db.VarChar(45)
+  createdAt DateTime @default(now()) @map("created_at")
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  @@unique([ideaId, ipAddress])
+  @@index([ipAddress])
+  @@index([ideaId])
+  @@map("votes")
+}
