@@ -1,8 +1,8 @@
-import { useIdeas } from './hooks/useIdeas'
-import { useVote } from './hooks/useVote'
-import { LoadingSpinner } from './components/shared/LoadingSpinner'
-import { ErrorMessage } from './components/shared/ErrorMessage'
-import { IdeaList } from './components/features/ideas/IdeaList'
+import { IdeaList } from "./components/features/ideas/IdeaList"
+import { ErrorMessage } from "./components/shared/ErrorMessage"
+import { LoadingSpinner } from "./components/shared/LoadingSpinner"
+import { useIdeas } from "./hooks/useIdeas"
+import { useVote } from "./hooks/useVote"
 
 function App() {
   const { ideas, loading, error, refetch } = useIdeas()
@@ -15,7 +15,7 @@ function App() {
       await refetch()
     } catch (error) {
       // Error is already handled in useVote hook
-      console.error('Vote failed:', error)
+      console.error("Vote failed:", error)
     }
   }
 
@@ -33,7 +33,7 @@ function App() {
 
         <main>
           {error && <ErrorMessage error={error} onRetry={refetch} />}
-          
+
           {loading ? (
             <LoadingSpinner />
           ) : (

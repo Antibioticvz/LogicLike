@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { apiClient } from '@/api/client'
-import type { IdeaWithVoteStatus, ApiError } from '@/types/api.types'
+import { apiClient } from "@/api/client"
+import type { ApiError, IdeaWithVoteStatus } from "@/types/api.types"
+import { useEffect, useState } from "react"
 
 export function useIdeas() {
   const [ideas, setIdeas] = useState<IdeaWithVoteStatus[]>([])

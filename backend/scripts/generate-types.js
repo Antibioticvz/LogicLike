@@ -2,22 +2,22 @@
 
 /**
  * Скрипт для генерации TypeScript типов из Prisma схемы для frontend
- * 
+ *
  * Генерирует:
  * - Domain types (Idea, Vote)
  * - API response types
  * - Вспомогательные типы
  */
 
-import { writeFileSync, mkdirSync } from 'fs'
-import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
+import { mkdirSync, writeFileSync } from "fs"
+import { dirname, join } from "path"
+import { fileURLToPath } from "url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // Путь к выходному файлу (поднимаемся в корень проекта, затем в frontend)
-const projectRoot = join(__dirname, '../../')
-const outputPath = join(projectRoot, 'frontend/src/types/generated.ts')
+const projectRoot = join(__dirname, "../../")
+const outputPath = join(projectRoot, "frontend/src/types/generated.ts")
 
 // Генерируем типы на основе Prisma схемы
 const generatedTypes = `// This file is auto-generated. Do not edit manually.
@@ -114,7 +114,7 @@ export function isApiError(error: unknown): error is ApiError {
 mkdirSync(dirname(outputPath), { recursive: true })
 
 // Записываем файл
-writeFileSync(outputPath, generatedTypes, 'utf-8')
+writeFileSync(outputPath, generatedTypes, "utf-8")
 
-console.log('✅ Types generated successfully!')
+console.log("✅ Types generated successfully!")
 console.log(`📁 Output: ${outputPath}`)

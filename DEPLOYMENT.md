@@ -77,6 +77,7 @@ npx prisma db seed
 Откройте два терминала:
 
 **Терминал 1 - Backend:**
+
 ```bash
 cd backend
 npm run dev
@@ -84,6 +85,7 @@ npm run dev
 ```
 
 **Терминал 2 - Frontend:**
+
 ```bash
 cd frontend
 npm run dev
@@ -143,6 +145,7 @@ docker-compose down
 ```
 
 Сервисы:
+
 - Backend: http://localhost:3000
 - Frontend: http://localhost:80
 - PostgreSQL: localhost:5432
@@ -158,12 +161,14 @@ docker-compose exec backend npx prisma migrate deploy
 ### Backend (Node.js)
 
 Рекомендуемые платформы:
+
 - **Railway** - https://railway.app
 - **Render** - https://render.com
 - **Fly.io** - https://fly.io
 - **DigitalOcean App Platform**
 
 Конфигурация:
+
 - Build Command: `npm install && npm run build`
 - Start Command: `npm start`
 - Environment Variables: добавьте все из `.env`
@@ -171,11 +176,13 @@ docker-compose exec backend npx prisma migrate deploy
 ### Frontend (Static)
 
 Рекомендуемые платформы:
+
 - **Vercel** - https://vercel.com (лучший выбор для Vite)
 - **Netlify** - https://netlify.com
 - **Cloudflare Pages** - https://pages.cloudflare.com
 
 Конфигурация:
+
 - Build Command: `npm run build`
 - Output Directory: `dist`
 - Node Version: 20
@@ -184,6 +191,7 @@ docker-compose exec backend npx prisma migrate deploy
 ### База данных
 
 Рекомендуемые хостинги PostgreSQL:
+
 - **Supabase** - https://supabase.com (бесплатный tier)
 - **Neon** - https://neon.tech (бесплатный tier)
 - **Railway** - https://railway.app
@@ -225,6 +233,7 @@ docker-compose exec backend npx prisma migrate deploy
 ### GitHub Actions (пример)
 
 **Backend:**
+
 ```yaml
 name: Backend CI/CD
 
@@ -232,7 +241,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'backend/**'
+      - "backend/**"
 
 jobs:
   test:
@@ -241,10 +250,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
       - run: cd backend && npm ci
       - run: cd backend && npm test
-      
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -255,6 +264,7 @@ jobs:
 ```
 
 **Frontend:**
+
 ```yaml
 name: Frontend CI/CD
 
@@ -262,7 +272,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'frontend/**'
+      - "frontend/**"
 
 jobs:
   build-deploy:
@@ -289,6 +299,7 @@ curl http://localhost:3000/api/ideas
 ### Application Monitoring
 
 Рекомендуемые инструменты:
+
 - **Backend**: Sentry, LogRocket, DataDog
 - **Frontend**: Sentry, LogRocket, Google Analytics
 - **Database**: PgAdmin, DataDog, Grafana
@@ -296,6 +307,7 @@ curl http://localhost:3000/api/ideas
 ### Логирование
 
 Backend уже использует Fastify logger (Pino):
+
 - Все запросы логируются автоматически
 - Ошибки логируются с полным стеком
 - Бизнес-события (голосование) логируются
@@ -356,6 +368,7 @@ echo $DATABASE_URL
 ## 🆘 Поддержка
 
 Если возникли проблемы:
+
 1. Проверьте логи: `docker-compose logs` или terminal output
 2. Проверьте переменные окружения
 3. Убедитесь что все зависимости установлены
@@ -364,6 +377,7 @@ echo $DATABASE_URL
 ## 🎉 Готово!
 
 После успешного развертывания у вас будет:
+
 - ✅ Backend API с полной типизацией
 - ✅ React frontend с автоматической генерацией типов
 - ✅ PostgreSQL база данных

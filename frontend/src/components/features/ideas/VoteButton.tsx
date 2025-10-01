@@ -1,4 +1,4 @@
-import type { IdeaWithVoteStatus } from '@/types/api.types'
+import type { IdeaWithVoteStatus } from "@/types/api.types"
 
 interface VoteButtonProps {
   idea: IdeaWithVoteStatus
@@ -21,10 +21,10 @@ export function VoteButton({ idea, onVote, disabled }: VoteButtonProps) {
         flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all
         ${
           idea.hasVoted
-            ? 'bg-green-100 text-green-700 cursor-default'
+            ? "bg-green-100 text-green-700 cursor-default"
             : disabled
-            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-            : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95'
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
         }
       `}
     >
@@ -50,7 +50,7 @@ export function VoteButton({ idea, onVote, disabled }: VoteButtonProps) {
           />
         )}
       </svg>
-      {idea.hasVoted ? 'Voted' : 'Vote'}
+      {idea.hasVoted ? "Voted" : "Vote"}
     </button>
   )
 }

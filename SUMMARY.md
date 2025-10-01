@@ -5,6 +5,7 @@
 ## ✅ Выполненные фазы
 
 ### Phase 1: Project Setup ✅ (100%)
+
 - ✅ Инициализация Node.js проекта
 - ✅ Настройка TypeScript с strict режимом
 - ✅ Настройка Fastify с плагинами
@@ -14,6 +15,7 @@
 - ✅ Git репозиторий
 
 ### Phase 2: Backend Implementation ✅ (100%)
+
 - ✅ Prisma схема (Idea, Vote с индексами)
 - ✅ Clean Architecture структура:
   - Domain слой (entities, interfaces)
@@ -30,6 +32,7 @@
 - ✅ Graceful shutdown обработчик
 
 ### Phase 3: Testing & Quality ✅ (100%)
+
 - ✅ Vitest настройка для интеграционных тестов
 - ✅ 6 интеграционных тестов (все проходят):
   - Получение всех идей
@@ -51,6 +54,7 @@
 - ✅ All audit fixes implemented with Russian comments
 
 ### Phase 4: Frontend Development ✅ (95%)
+
 - ✅ Vite + React + TypeScript setup
 - ✅ Tailwind CSS configuration
 - ✅ **Automatic Type Generation System**:
@@ -71,13 +75,14 @@
   - IdeaList (responsive grid layout)
 - ✅ Main App.tsx with complete state management
 - ✅ Environment configuration (.env)
-- ✅ Path aliases (@/*)
+- ✅ Path aliases (@/\*)
 - ✅ API proxy configuration
 - ✅ Responsive mobile-first design
 - ⏳ Integration testing (90%)
 - ⏳ Toast notifications (optional)
 
 ### Phase 5: Documentation ✅ (100%)
+
 - ✅ Comprehensive README.md
 - ✅ Backend README with API documentation
 - ✅ Frontend README with architecture details
@@ -91,6 +96,7 @@
 ## 🎯 Key Achievements
 
 ### 1. Type Safety Everywhere
+
 ```typescript
 // Backend generates types from Prisma schema
 npm run types:generate
@@ -103,6 +109,7 @@ const ideas: IdeaWithVoteStatus[] = await apiClient.getIdeas()
 ```
 
 ### 2. Clean Architecture Implementation
+
 ```
 Backend:
 Domain → Application → Infrastructure → Presentation
@@ -112,6 +119,7 @@ API Client → Hooks → Components → App
 ```
 
 ### 3. Production-Ready Features
+
 - ✅ Race condition prevention (DB transactions)
 - ✅ N+1 query optimization (Prisma include)
 - ✅ IP-based vote limiting (configurable)
@@ -123,6 +131,7 @@ API Client → Hooks → Components → App
 - ✅ Docker containerization
 
 ### 4. Developer Experience
+
 - ✅ Hot reload (backend: tsx --watch, frontend: Vite HMR)
 - ✅ Type generation on schema changes
 - ✅ Comprehensive test suite
@@ -133,12 +142,14 @@ API Client → Hooks → Components → App
 ## 📊 Code Statistics
 
 ### Backend
+
 - **Lines of Code**: ~1,500
 - **Files**: 25+
 - **Test Coverage**: 6 integration tests
 - **Dependencies**: 15 production, 8 dev
 
 ### Frontend
+
 - **Lines of Code**: ~800
 - **Files**: 15+
 - **Components**: 6
@@ -146,6 +157,7 @@ API Client → Hooks → Components → App
 - **Dependencies**: 8 production, 6 dev
 
 ### Total
+
 - **Total LoC**: ~2,300
 - **TypeScript**: 100%
 - **Test Files**: 7
@@ -153,23 +165,24 @@ API Client → Hooks → Components → App
 
 ## 🔧 Tech Stack Summary
 
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| **Runtime** | Node.js | 20.11+ |
-| **Language** | TypeScript | 5.2.2 |
-| **Backend Framework** | Fastify | 5.6.1 |
-| **ORM** | Prisma | 6.16.3 |
-| **Database** | PostgreSQL | 15 |
-| **Validation** | Zod | 3.x |
-| **Testing** | Vitest | 3.2.4 |
-| **Frontend Library** | React | 18.2.0 |
-| **Build Tool** | Vite | 5.2.0 |
-| **Styling** | Tailwind CSS | 3.x |
-| **Containerization** | Docker Compose | - |
+| Layer                 | Technology     | Version |
+| --------------------- | -------------- | ------- |
+| **Runtime**           | Node.js        | 20.11+  |
+| **Language**          | TypeScript     | 5.2.2   |
+| **Backend Framework** | Fastify        | 5.6.1   |
+| **ORM**               | Prisma         | 6.16.3  |
+| **Database**          | PostgreSQL     | 15      |
+| **Validation**        | Zod            | 3.x     |
+| **Testing**           | Vitest         | 3.2.4   |
+| **Frontend Library**  | React          | 18.2.0  |
+| **Build Tool**        | Vite           | 5.2.0   |
+| **Styling**           | Tailwind CSS   | 3.x     |
+| **Containerization**  | Docker Compose | -       |
 
 ## 🎨 Features Overview
 
 ### Backend Features
+
 1. **RESTful API** - 3 endpoints with full CRUD support
 2. **Type-safe ORM** - Prisma with auto-generated client
 3. **Input Validation** - Zod schemas for all inputs
@@ -184,6 +197,7 @@ API Client → Hooks → Components → App
 12. **Business Events** - Logging important actions
 
 ### Frontend Features
+
 1. **Type-safe API Client** - Full TypeScript support
 2. **Custom Hooks** - Separation of concerns
 3. **Loading States** - User feedback during operations
@@ -234,6 +248,7 @@ ligiclike/
 ## 🚀 Running the Project
 
 ### Development
+
 ```bash
 # Terminal 1 - Backend
 cd backend && npm run dev
@@ -245,6 +260,7 @@ cd frontend && npm run dev
 ```
 
 ### Testing
+
 ```bash
 # Backend tests
 cd backend && npm test
@@ -254,6 +270,7 @@ cd frontend && npm run type-check
 ```
 
 ### Production
+
 ```bash
 # Backend build
 cd backend && npm run build && npm start
@@ -266,9 +283,11 @@ cd frontend && npm run build
 ## 📝 API Documentation
 
 ### GET /api/ideas
+
 Получить все идеи с статусом голосования для текущего IP.
 
 **Response:**
+
 ```typescript
 {
   data: IdeaWithVoteStatus[],
@@ -277,9 +296,11 @@ cd frontend && npm run build
 ```
 
 ### GET /api/ideas/:id
+
 Получить конкретную идею.
 
 **Response:**
+
 ```typescript
 {
   data: IdeaWithVoteStatus,
@@ -288,9 +309,11 @@ cd frontend && npm run build
 ```
 
 ### POST /api/ideas/:id/vote
+
 Проголосовать за идею.
 
 **Response:**
+
 ```typescript
 {
   data: IdeaWithVoteStatus,
@@ -299,6 +322,7 @@ cd frontend && npm run build
 ```
 
 **Errors:**
+
 - `400` - Invalid idea ID
 - `404` - Idea not found
 - `409` - Already voted (DUPLICATE_VOTE)
@@ -308,6 +332,7 @@ cd frontend && npm run build
 ## 🎯 Next Steps (Optional Enhancements)
 
 ### High Priority
+
 - [ ] Add toast notifications (react-hot-toast)
 - [ ] Add Sentry error tracking
 - [ ] Implement rate limiting middleware
@@ -315,6 +340,7 @@ cd frontend && npm run build
 - [ ] Set up CI/CD pipeline
 
 ### Medium Priority
+
 - [ ] Add idea creation endpoint
 - [ ] Implement pagination for ideas list
 - [ ] Add sorting (by votes, date)
@@ -322,6 +348,7 @@ cd frontend && npm run build
 - [ ] Admin panel for idea management
 
 ### Low Priority
+
 - [ ] Dark mode toggle
 - [ ] Add animations (framer-motion)
 - [ ] PWA support with service worker
@@ -355,6 +382,7 @@ cd frontend && npm run build
 ## 📞 Support
 
 Если возникли вопросы:
+
 1. Проверьте [Backend README](./backend/README.md)
 2. Проверьте [Frontend README](./frontend/README.md)
 3. Посмотрите [DEPLOYMENT.md](./DEPLOYMENT.md)

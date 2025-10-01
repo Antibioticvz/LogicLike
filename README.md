@@ -48,6 +48,7 @@ src/
 ## 🚀 Технологический стек
 
 ### Backend
+
 - **Node.js 20** + **TypeScript 5**
 - **Fastify 5** - быстрый веб-фреймворк
 - **Prisma 6** - type-safe ORM
@@ -56,6 +57,7 @@ src/
 - **Vitest 3** - тестирование
 
 ### Frontend
+
 - **React 18** - UI библиотека
 - **TypeScript 5** - типизация
 - **Vite 5** - сборщик и dev сервер
@@ -63,6 +65,7 @@ src/
 - **Fetch API** - HTTP запросы
 
 ### DevOps
+
 - **Docker** + **Docker Compose**
 - **tsx** - TypeScript executor
 - **Prisma Migrate** - миграции БД
@@ -91,6 +94,7 @@ npm install
 ### 3. Настройка окружения
 
 **Backend** - создайте `/backend/.env`:
+
 ```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/voting_platform"
 PORT=3000
@@ -99,6 +103,7 @@ MAX_VOTES_PER_IP=3
 ```
 
 **Frontend** - создайте `/frontend/.env`:
+
 ```env
 VITE_API_URL=http://localhost:3000
 ```
@@ -120,12 +125,14 @@ npx prisma db seed
 ### 5. Запуск
 
 **Терминал 1 - Backend:**
+
 ```bash
 cd backend
 npm run dev
 ```
 
 **Терминал 2 - Frontend:**
+
 ```bash
 cd frontend
 npm run dev
@@ -175,6 +182,7 @@ npm run types:generate
 ```
 
 Генерирует TypeScript типы для frontend из Prisma схемы:
+
 - Domain типы (Idea, Vote)
 - API типы (ApiResponse, ApiError, VotingError)
 - Type guards для runtime проверки
@@ -225,4 +233,3 @@ MIT License - см. [LICENSE](LICENSE) для деталей
 ---
 
 Сделано с ❤️ и TypeScript
-

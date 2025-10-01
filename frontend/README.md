@@ -6,7 +6,7 @@ React + TypeScript + Vite + Tailwind CSS frontend for the voting platform.
 
 ### Prerequisites
 
-- Node.js 20.11+ 
+- Node.js 20.11+
 - npm 10+
 - Backend server running on port 3000
 
@@ -110,7 +110,7 @@ This creates `src/types/generated.ts` with all domain types, API responses, and 
 All components use generated types:
 
 ```typescript
-import type { IdeaWithVoteStatus } from '@/types/api.types'
+import type { IdeaWithVoteStatus } from "@/types/api.types"
 
 interface Props {
   idea: IdeaWithVoteStatus
@@ -180,6 +180,7 @@ VITE_API_URL=http://localhost:3000
 ### Vite Configuration
 
 See `vite.config.ts` for:
+
 - Path aliases (`@/*`)
 - API proxy configuration
 - Build optimizations

@@ -13,6 +13,7 @@
 ### Автоматическая генерация
 
 Типы автоматически генерируются при:
+
 - `npm install` в backend (postinstall hook)
 - Изменении Prisma схемы
 
@@ -28,7 +29,7 @@ npm run types:generate
 ### В API клиенте
 
 ```typescript
-import type { IdeaWithVoteStatus, ApiError } from '@/types/api.types'
+import type { IdeaWithVoteStatus, ApiError } from "@/types/api.types"
 
 const ideas: IdeaWithVoteStatus[] = await apiClient.getIdeas()
 ```
@@ -36,7 +37,7 @@ const ideas: IdeaWithVoteStatus[] = await apiClient.getIdeas()
 ### В компонентах
 
 ```typescript
-import type { IdeaWithVoteStatus } from '@/types/api.types'
+import type { IdeaWithVoteStatus } from "@/types/api.types"
 
 interface Props {
   idea: IdeaWithVoteStatus
@@ -46,7 +47,7 @@ interface Props {
 ### Type Guards
 
 ```typescript
-import { isVotingError, isApiError } from '@/types/api.types'
+import { isVotingError, isApiError } from "@/types/api.types"
 
 try {
   await voteForIdea(id)

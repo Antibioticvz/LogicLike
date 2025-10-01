@@ -1,5 +1,5 @@
-import type { IdeaWithVoteStatus } from '@/types/api.types'
-import { IdeaCard } from './IdeaCard'
+import type { IdeaWithVoteStatus } from "@/types/api.types"
+import { IdeaCard } from "./IdeaCard"
 
 interface IdeaListProps {
   ideas: IdeaWithVoteStatus[]
@@ -34,7 +34,7 @@ export function IdeaList({ ideas, onVote, voting }: IdeaListProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {ideas.map((idea) => (
+      {ideas.map(idea => (
         <IdeaCard key={idea.id} idea={idea} onVote={onVote} voting={voting} />
       ))}
     </div>

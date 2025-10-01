@@ -1,12 +1,12 @@
 // Re-export generated types for convenience
 export type {
+  ApiError,
+  ApiResponse,
   Idea,
   IdeaWithVoteStatus,
   Vote,
-  ApiResponse,
-  ApiError,
   VotingError,
   VotingErrorType,
-} from './generated'
+} from "./generated"
 
-export { isVotingError, isApiError } from './generated'
+export { isApiError, isVotingError } from "./generated"

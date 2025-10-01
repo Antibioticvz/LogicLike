@@ -1,6 +1,6 @@
-import type { IdeaWithVoteStatus, ApiError } from '@/types/api.types'
+import type { ApiError, IdeaWithVoteStatus } from "@/types/api.types"
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
 
 class ApiClient {
   private async request<T>(
@@ -13,7 +13,7 @@ class ApiClient {
       const response = await fetch(url, {
         ...options,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           ...options?.headers,
         },
       })
@@ -41,7 +41,7 @@ class ApiClient {
       }
 
       throw {
-        message: 'Network error. Please check your connection.',
+        message: "Network error. Please check your connection.",
         statusCode: 0,
       } as ApiError
     }
@@ -49,7 +49,7 @@ class ApiClient {
 
   // Get all ideas with vote status
   async getIdeas(): Promise<IdeaWithVoteStatus[]> {
-    return this.request<IdeaWithVoteStatus[]>('/api/ideas')
+    return this.request<IdeaWithVoteStatus[]>("/api/ideas")
   }
 
   // Get a single idea by ID
@@ -60,7 +60,7 @@ class ApiClient {
   // Vote for an idea
   async voteForIdea(ideaId: number): Promise<IdeaWithVoteStatus> {
     return this.request<IdeaWithVoteStatus>(`/api/ideas/${ideaId}/vote`, {
-      method: 'POST',
+      method: "POST",
     })
   }
 }

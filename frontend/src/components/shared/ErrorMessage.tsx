@@ -1,4 +1,4 @@
-import type { ApiError } from '@/types/api.types'
+import type { ApiError } from "@/types/api.types"
 
 interface ErrorMessageProps {
   error: ApiError | null
@@ -25,7 +25,9 @@ export function ErrorMessage({ error, onRetry }: ErrorMessageProps) {
           />
         </svg>
         <p className="text-lg font-semibold">
-          {error.statusCode === 0 ? 'Network Error' : 'Oops! Something went wrong'}
+          {error.statusCode === 0
+            ? "Network Error"
+            : "Oops! Something went wrong"}
         </p>
       </div>
       <p className="text-red-600 mb-4">{error.message}</p>
