@@ -18,7 +18,9 @@
     "prisma:seed": "tsx prisma/seed.ts",
     "prisma:studio": "prisma studio",
     "db:push": "prisma db push",
-    "db:seed": "npm run prisma:seed"
+    "db:seed": "npm run prisma:seed",
+    "types:generate": "node scripts/generate-types.js",
+    "postinstall": "npm run prisma:generate && npm run types:generate"
   },
   "keywords": [
     "fastify",
