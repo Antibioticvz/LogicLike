@@ -20,7 +20,13 @@
     "db:push": "prisma db push",
     "db:seed": "npm run prisma:seed"
   },
-  "keywords": ["fastify", "typescript", "prisma", "voting", "postgresql"],
+  "keywords": [
+    "fastify",
+    "typescript",
+    "prisma",
+    "voting",
+    "postgresql"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
