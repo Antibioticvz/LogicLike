@@ -1,6 +1,6 @@
 import type { Idea } from "@prisma/client"
-import type { IIdeasRepository } from "../../domain/interfaces/repositories.js"
-import prisma from "../database/prisma.js"
+import type { IIdeasRepository } from "@/domain/interfaces/repositories.js"
+import prisma from "@/infrastructure/database/prisma.js"
 
 export class IdeasRepository implements IIdeasRepository {
   async findAll(): Promise<Idea[]> {

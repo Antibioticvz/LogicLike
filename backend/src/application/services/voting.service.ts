@@ -1,10 +1,10 @@
-import config from "../../config/index.js"
-import type { VoteResult } from "../../domain/entities/index.js"
-import { VotingError, VotingErrorType } from "../../domain/entities/index.js"
+import config from "@/config/index.js"
+import type { VoteResult } from "@/domain/entities/index.js"
+import { VotingError, VotingErrorType } from "@/domain/entities/index.js"
 import type {
   IIdeasRepository,
   IVotesRepository,
-} from "../../domain/interfaces/repositories.js"
+} from "@/domain/interfaces/repositories.js"
 
 export class VotingService {
   constructor(

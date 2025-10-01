@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify"
-import type { IdeasService } from "../../application/services/ideas.service.js"
-import { extractIpAddress } from "../../infrastructure/utils/ip-extractor.js"
+import type { IdeasService } from "@/application/services/ideas.service.js"
+import { extractIpAddress } from "@/infrastructure/utils/ip-extractor.js"
 
 export class IdeasController {
   constructor(private readonly ideasService: IdeasService) {}

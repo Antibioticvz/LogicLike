@@ -1,14 +1,14 @@
+import { IdeasService } from "@/application/services/ideas.service.js"
+import { VotingService } from "@/application/services/voting.service.js"
+import config from "@/config/index.js"
+import { IdeasRepository } from "@/infrastructure/repositories/ideas.repository.js"
+import { VotesRepository } from "@/infrastructure/repositories/votes.repository.js"
+import { IdeasController } from "@/presentation/controllers/ideas.controller.js"
+import { VotingController } from "@/presentation/controllers/voting.controller.js"
+import { registerRoutes } from "@/presentation/routes/index.js"
 import cors from "@fastify/cors"
 import rateLimit from "@fastify/rate-limit"
 import Fastify from "fastify"
-import { IdeasService } from "./application/services/ideas.service.js"
-import { VotingService } from "./application/services/voting.service.js"
-import config from "./config/index.js"
-import { IdeasRepository } from "./infrastructure/repositories/ideas.repository.js"
-import { VotesRepository } from "./infrastructure/repositories/votes.repository.js"
-import { IdeasController } from "./presentation/controllers/ideas.controller.js"
-import { VotingController } from "./presentation/controllers/voting.controller.js"
-import { registerRoutes } from "./presentation/routes/index.js"
 
 const fastify = Fastify({
   logger: {
@@ -40,7 +40,7 @@ const ideasController = new IdeasController(ideasService)
 const votingController = new VotingController(votingService)
 
 // Register routes
-await registerRoutes(fastify, ideasController, votingController)
+registerRoutes(fastify, ideasController, votingController)
 
 // Start server
 const start = async (): Promise<void> => {
@@ -60,4 +60,4 @@ const start = async (): Promise<void> => {
   }
 }
 
-start()
+void start()

@@ -1,5 +1,5 @@
 PROJECT_PLAN.md
-*/node_modules/
+
 .DS_Store
 .vscode/
 dist/

@@ -1,8 +1,8 @@
-import type { IdeaWithVoteStatus } from "../../domain/entities/index.js"
+import type { IdeaWithVoteStatus } from "@/domain/entities/index.js"
 import type {
   IIdeasRepository,
   IVotesRepository,
-} from "../../domain/interfaces/repositories.js"
+} from "@/domain/interfaces/repositories.js"
 
 export class IdeasService {
   constructor(

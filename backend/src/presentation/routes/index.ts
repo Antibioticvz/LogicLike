@@ -1,12 +1,12 @@
+import type { IdeasController } from "@/presentation/controllers/ideas.controller.js"
+import type { VotingController } from "@/presentation/controllers/voting.controller.js"
 import type { FastifyInstance } from "fastify"
-import type { IdeasController } from "../controllers/ideas.controller.js"
-import type { VotingController } from "../controllers/voting.controller.js"
 
-export async function registerRoutes(
+export function registerRoutes(
   fastify: FastifyInstance,
   ideasController: IdeasController,
   votingController: VotingController
-): Promise<void> {
+): void {
   // Ideas routes
   fastify.get("/api/ideas", ideasController.getAll.bind(ideasController))
   fastify.get("/api/ideas/:id", ideasController.getById.bind(ideasController))
@@ -18,5 +18,5 @@ export async function registerRoutes(
   )
 
   // Health check
-  fastify.get("/health", async () => ({ status: "ok" }))
+  fastify.get("/health", () => ({ status: "ok" }))
 }

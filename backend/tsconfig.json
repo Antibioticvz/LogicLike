@@ -5,6 +5,10 @@
     "moduleResolution": "NodeNext",
     "lib": ["ES2022"],
     "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -26,6 +30,6 @@
     "sourceMap": true,
     "types": ["node", "vitest/globals"]
   },
-  "include": ["src/**/*", "prisma/**/*"],
-  "exclude": ["node_modules", "dist", "tests", "**/*.test.ts"]
+  "include": ["src/**/*", "prisma/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

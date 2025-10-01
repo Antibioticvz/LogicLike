@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify"
-import type { VotingService } from "../../application/services/voting.service.js"
-import { VotingError, VotingErrorType } from "../../domain/entities/index.js"
-import { extractIpAddress } from "../../infrastructure/utils/ip-extractor.js"
+import type { VotingService } from "@/application/services/voting.service.js"
+import { VotingError, VotingErrorType } from "@/domain/entities/index.js"
+import { extractIpAddress } from "@/infrastructure/utils/ip-extractor.js"
 
 export class VotingController {
   constructor(private readonly votingService: VotingService) {}
