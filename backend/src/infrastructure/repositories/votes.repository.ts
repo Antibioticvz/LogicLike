@@ -1,6 +1,6 @@
-import type { Vote } from '@prisma/client';
-import type { IVotesRepository } from '../../domain/interfaces/repositories.js';
-import prisma from '../database/prisma.js';
+import type { Vote } from "@prisma/client"
+import type { IVotesRepository } from "../../domain/interfaces/repositories.js"
+import prisma from "../database/prisma.js"
 
 export class VotesRepository implements IVotesRepository {
   async create(ideaId: number, ipAddress: string): Promise<Vote> {
@@ -9,7 +9,7 @@ export class VotesRepository implements IVotesRepository {
         ideaId,
         ipAddress,
       },
-    });
+    })
   }
 
   async countByIpAddress(ipAddress: string): Promise<number> {
@@ -17,7 +17,7 @@ export class VotesRepository implements IVotesRepository {
       where: {
         ipAddress,
       },
-    });
+    })
   }
 
   async existsByIdeaAndIp(ideaId: number, ipAddress: string): Promise<boolean> {
@@ -28,8 +28,8 @@ export class VotesRepository implements IVotesRepository {
           ipAddress,
         },
       },
-    });
-    return vote !== null;
+    })
+    return vote !== null
   }
 
   async findByIpAddress(ipAddress: string): Promise<Vote[]> {
@@ -37,6 +37,6 @@ export class VotesRepository implements IVotesRepository {
       where: {
         ipAddress,
       },
-    });
+    })
   }
 }
