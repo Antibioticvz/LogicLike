@@ -1,9 +1,13 @@
+import type { ApiError } from '@/types/api.types'
+
 interface ErrorMessageProps {
-  message: string
+  error: ApiError | null
   onRetry?: () => void
 }
 
-export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
+export function ErrorMessage({ error, onRetry }: ErrorMessageProps) {
+  if (!error) return null
+
   return (
     <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
       <div className="text-red-800 mb-4">
@@ -20,9 +24,11 @@ export function ErrorMessage({ message, onRetry }: ErrorMessageProps) {
             d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <p className="text-lg font-semibold">Oops! Something went wrong</p>
+        <p className="text-lg font-semibold">
+          {error.statusCode === 0 ? 'Network Error' : 'Oops! Something went wrong'}
+        </p>
       </div>
-      <p className="text-red-600 mb-4">{message}</p>
+      <p className="text-red-600 mb-4">{error.message}</p>
       {onRetry && (
         <button
           onClick={onRetry}
