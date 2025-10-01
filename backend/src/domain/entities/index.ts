@@ -1,27 +1,28 @@
-export type { Idea, Vote } from "@prisma/client"
+// Re-export types from shared types module
+import type { IdeaWithVoteStatus as IdeaWithVoteStatusType } from "@/types/index.js"
+import { VotingErrorType as VotingErrorTypeEnum } from "@/types/index.js"
 
-export interface IdeaWithVoteStatus {
-  id: number
-  title: string
-  description: string
-  votesCount: number
-  createdAt: Date
-  hasVoted: boolean
-}
+export {
+  isApiError,
+  isVotingError,
+  VotingErrorType,
+  type VotingError as IVotingError,
+} from "@/types/index.js"
+export type {
+  ApiError,
+  ApiResponse,
+  Idea,
+  IdeaWithVoteStatus,
+  Vote,
+} from "@/types/index.js"
 
 export interface VoteResult {
   success: boolean
-  data: IdeaWithVoteStatus
-}
-
-export enum VotingErrorType {
-  VOTE_LIMIT_EXCEEDED = "VOTE_LIMIT_EXCEEDED",
-  DUPLICATE_VOTE = "DUPLICATE_VOTE",
-  IDEA_NOT_FOUND = "IDEA_NOT_FOUND",
+  data: IdeaWithVoteStatusType
 }
 
 export class VotingError extends Error {
-  constructor(public type: VotingErrorType, message: string) {
+  constructor(public type: VotingErrorTypeEnum, message: string) {
     super(message)
     this.name = "VotingError"
   }

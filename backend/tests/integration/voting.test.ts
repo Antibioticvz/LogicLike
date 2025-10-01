@@ -103,7 +103,7 @@ describe("Ограничения голосования на основе IP", (
       statusCode: number
       body: {
         success: boolean
-        idea: {
+        data: {
           id: number
           votesCount: number
           hasVoted: boolean
@@ -134,7 +134,7 @@ describe("Ограничения голосования на основе IP", (
     votes.forEach(vote => {
       expect(vote.statusCode).toBe(201)
       expect(vote.body.success).toBe(true)
-      expect(vote.body.idea.votesCount).toBe(1)
+      expect(vote.body.data.votesCount).toBe(1)
     })
 
     // Проверить общее количество голосов для этого IP
