@@ -49,19 +49,29 @@ class ApiClient {
 
   // Get all ideas with vote status
   async getIdeas(): Promise<IdeaWithVoteStatus[]> {
-    return this.request<IdeaWithVoteStatus[]>("/api/ideas")
+    const response = await this.request<{ data: IdeaWithVoteStatus[] }>(
+      "/api/ideas"
+    )
+    return response.data
   }
 
   // Get a single idea by ID
   async getIdeaById(id: number): Promise<IdeaWithVoteStatus> {
-    return this.request<IdeaWithVoteStatus>(`/api/ideas/${id}`)
+    const response = await this.request<{ data: IdeaWithVoteStatus }>(
+      `/api/ideas/${id}`
+    )
+    return response.data
   }
 
   // Vote for an idea
   async voteForIdea(ideaId: number): Promise<IdeaWithVoteStatus> {
-    return this.request<IdeaWithVoteStatus>(`/api/ideas/${ideaId}/vote`, {
-      method: "POST",
-    })
+    const response = await this.request<{ data: IdeaWithVoteStatus }>(
+      `/api/ideas/${ideaId}/vote`,
+      {
+        method: "POST",
+      }
+    )
+    return response.data
   }
 }
 

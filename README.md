@@ -160,6 +160,7 @@ npm run build
 - [Backend README](./backend/README.md) - Подробная документация backend
 - [Frontend README](./frontend/README.md) - Подробная документация frontend
 - [Type Generation](./TYPE_GENERATION.md) - Автогенерация типов
+- [UI States](./UI_STATES.md) - Все состояния интерфейса (загрузка, ошибки, пустое состояние)
 - [Deployment Guide](./DEPLOYMENT.md) - Инструкции по развертыванию
 - [Project Plan](./PROJECT_PLAN.md) - План разработки
 
