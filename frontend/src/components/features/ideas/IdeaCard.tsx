@@ -1,21 +1,16 @@
 import type { IdeaWithVoteStatus } from "@/types/api.types"
+import { memo } from "react"
+
 import { VoteButton } from "./VoteButton"
 
 interface IdeaCardProps {
   idea: IdeaWithVoteStatus
   onVote: (ideaId: number) => void
-  voting: boolean
+  isVoting: boolean
 }
 
-export function IdeaCard({ idea, onVote, voting }: IdeaCardProps) {
-  const formatDate = (dateString: string | Date) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("ru-RU", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    })
-  }
+function IdeaCardComponent({ idea, onVote, isVoting }: IdeaCardProps) {
+  const formattedCreatedAt = formatDate(idea.createdAt)
 
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 p-6">
@@ -43,11 +38,24 @@ export function IdeaCard({ idea, onVote, voting }: IdeaCardProps) {
             </span>
           </div>
           <span className="text-gray-300">•</span>
-          <span className="text-xs">{formatDate(idea.createdAt)}</span>
+          <span className="text-xs">{formattedCreatedAt}</span>
         </div>
 
-        <VoteButton idea={idea} onVote={onVote} disabled={voting} />
+        <VoteButton idea={idea} onVote={onVote} isVoting={isVoting} />
       </div>
     </div>
   )
+}
+
+IdeaCardComponent.displayName = "IdeaCard"
+
+export const IdeaCard = memo(IdeaCardComponent)
+
+function formatDate(dateString: string | Date) {
+  const date = new Date(dateString)
+  return date.toLocaleDateString("ru-RU", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
 }

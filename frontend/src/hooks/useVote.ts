@@ -3,12 +3,12 @@ import type { ApiError } from "@/types/api.types"
 import { useState } from "react"
 
 export function useVote() {
-  const [voting, setVoting] = useState(false)
+  const [votingId, setVotingId] = useState<number | null>(null)
   const [error, setError] = useState<ApiError | null>(null)
 
   const vote = async (ideaId: number) => {
     try {
-      setVoting(true)
+      setVotingId(ideaId)
       setError(null)
       const updatedIdea = await apiClient.voteForIdea(ideaId)
       return updatedIdea
@@ -17,9 +17,9 @@ export function useVote() {
       setError(apiError)
       throw apiError
     } finally {
-      setVoting(false)
+      setVotingId(null)
     }
   }
 
-  return { vote, voting, error }
+  return { vote, voting: votingId !== null, votingId, error }
 }

@@ -1,24 +1,24 @@
 import type { IdeaWithVoteStatus } from "@/types/api.types"
+import { memo } from "react"
 
 interface VoteButtonProps {
   idea: IdeaWithVoteStatus
   onVote: (ideaId: number) => void
-  disabled: boolean
+  isVoting: boolean
 }
 
-export function VoteButton({ idea, onVote, disabled }: VoteButtonProps) {
+function VoteButtonComponent({ idea, onVote, isVoting }: VoteButtonProps) {
   const handleClick = () => {
-    if (!disabled && !idea.hasVoted) {
+    if (!isVoting && !idea.hasVoted) {
       onVote(idea.id)
     }
   }
-
-  const isVoting = disabled && !idea.hasVoted
+  const disabled = isVoting || idea.hasVoted
 
   return (
     <button
       onClick={handleClick}
-      disabled={disabled || idea.hasVoted}
+      disabled={disabled}
       className={`
         flex items-center gap-2 px-4 py-2 rounded-lg font-medium 
         transition-all duration-200 ease-in-out
@@ -82,3 +82,5 @@ export function VoteButton({ idea, onVote, disabled }: VoteButtonProps) {
     </button>
   )
 }
+
+export const VoteButton = memo(VoteButtonComponent)

@@ -1,14 +1,16 @@
 import { EmptyState } from "@/components/shared/EmptyState"
 import type { IdeaWithVoteStatus } from "@/types/api.types"
+import { memo, useMemo } from "react"
+
 import { IdeaCard } from "./IdeaCard"
 
 interface IdeaListProps {
   ideas: IdeaWithVoteStatus[]
   onVote: (ideaId: number) => void
-  voting: boolean
+  votingIdeaId: number | null
 }
 
-export function IdeaList({ ideas, onVote, voting }: IdeaListProps) {
+function IdeaListComponent({ ideas, onVote, votingIdeaId }: IdeaListProps) {
   if (ideas.length === 0) {
     return (
       <EmptyState
@@ -48,11 +50,26 @@ export function IdeaList({ ideas, onVote, voting }: IdeaListProps) {
     )
   }
 
+  const cards = useMemo(
+    () =>
+      ideas.map(idea => (
+        <IdeaCard
+          key={idea.id}
+          idea={idea}
+          onVote={onVote}
+          isVoting={votingIdeaId === idea.id}
+        />
+      )),
+    [ideas, onVote, votingIdeaId]
+  )
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {ideas.map(idea => (
-        <IdeaCard key={idea.id} idea={idea} onVote={onVote} voting={voting} />
-      ))}
+      {cards}
     </div>
   )
 }
+
+IdeaListComponent.displayName = "IdeaList"
+
+export const IdeaList = memo(IdeaListComponent)

@@ -7,7 +7,7 @@
  * 
  * To regenerate, run: npm run types:generate
  * 
- * Generated: 2025-10-01T18:40:49.472Z
+ * Generated: 2025-10-01T18:54:19.837Z
  */
 // ==================== Database Models (from Prisma) ====================
 /**
