@@ -1,0 +1,58 @@
+{
+  "name": "voting-platform-backend",
+  "version": "1.0.0",
+  "description": "Backend for voting platform with IP-based vote limiting",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx --tsconfig tsconfig.json --watch src/server.ts",
+    "build": "tsc",
+    "start": "node --import=tsconfig-paths/register dist/server.js",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "tsx prisma/seed.ts",
+    "prisma:studio": "prisma studio",
+    "db:push": "prisma db push",
+    "db:seed": "npm run prisma:seed",
+    "types:generate": "node scripts/generate-types.js",
+    "postinstall": "npm run prisma:generate && npm run types:generate"
+  },
+  "keywords": [
+    "fastify",
+    "typescript",
+    "prisma",
+    "voting",
+    "postgresql"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@prisma/client": "^6.16.3",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.6.1",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@prisma/generator-helper": "^6.16.3",
+    "@types/node": "^24.6.1",
+    "@types/supertest": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "^9.36.0",
+    "prisma": "^6.16.3",
+    "prisma-json-types-generator": "^3.6.1",
+    "supertest": "^7.1.4",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}
